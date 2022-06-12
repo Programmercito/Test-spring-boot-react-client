@@ -28,12 +28,19 @@ const App = () => {
 
 
 	const actualiza = count => {
+		if (count<0){
+			setCounter(0);
+			count=0;
+		}
 		var url = "/api/users/all?page=" + count;
 		console.log(url);
 		fetch(url)
 			.then(res => res.json())
 			.then(
 				(data) => {
+					if (data.length===0){
+						setCounter(0);
+					}
 					setUsers(data);
 				},
 				(error) => {
