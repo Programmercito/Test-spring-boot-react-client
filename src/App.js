@@ -28,9 +28,9 @@ const App = () => {
 
 
 	const actualiza = count => {
-		if (count<0){
+		if (count < 0) {
 			setCounter(0);
-			count=0;
+			count = 0;
 		}
 		var url = "/api/users/all?page=" + count;
 		console.log(url);
@@ -38,7 +38,7 @@ const App = () => {
 			.then(res => res.json())
 			.then(
 				(data) => {
-					if (data.length===0){
+					if (data.length === 0) {
 						setCounter(0);
 					}
 					setUsers(data);
@@ -58,20 +58,61 @@ const App = () => {
 
 	// CRUD operations
 	const addUser = user => {
-		user.id = users.length + 1
-		setUsers([...users, user])
+		const requestOptions = {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(user)
+		};
+
+		fetch('/api/users', requestOptions)
+			.then(response => response.json())
+			.then((data) => {
+				user = data;
+				setUsers([...users, user])
+			}, (error) => {
+				alert("Erorr al insertar");
+			});
+
+
 	}
 
 	const deleteUser = id => {
 		setEditing(false)
+		const requestOptions = {
+			method: 'DELETE',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({'id':id})
+		};
+		
+		fetch('/api/users', requestOptions)
+		.then(response => response.json())
+		.then((data) => {
+			
+			setUsers(users.filter(user => user.id !== id))
+		}, (error) => {
+			alert("Erorr al insertar "+error);
+		});
 
 		setUsers(users.filter(user => user.id !== id))
+
 	}
 
 	const updateUser = (id, updatedUser) => {
 		setEditing(false)
+		const requestOptions = {
+			method: 'PATCH',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(updatedUser)
+		};
+		fetch('/api/users', requestOptions)
+			.then(response => response.json())
+			.then((data) => {
+				updatedUser = data;
+				setUsers(users.map(user => (user.id === id ? updatedUser : user)))
+			}, (error) => {
+				alert("Erorr al insertar "+error);
+			});
 
-		setUsers(users.map(user => (user.id === id ? updatedUser : user)))
 	}
 
 	const editRow = user => {
@@ -104,15 +145,18 @@ const App = () => {
 				</div>
 				<div className="flex-large">
 					<h2>View</h2>
-					<UserTable users={users} editRow={editRow} deleteUser={deleteUser} />
-
 					<ButtonDecrement onClickFunc={decrementCounter} />
 					<ButtonIncrement onClickFunc={incrementCounter} />
+					<br />
+					Pagina: <b>{counter + 1}</b>
+					<UserTable users={users} editRow={editRow} deleteUser={deleteUser} />
 
-					Pagina: <b>{counter+1}</b>
 
+
+
+
+				</div>
 			</div>
-		</div>
 		</div >
 	)
 }
