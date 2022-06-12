@@ -1,15 +1,13 @@
-import React, { useState, Fragment,useEffect } from 'react'
+import React, { useState, Fragment, useEffect } from 'react'
 import AddUserForm from './components/AddUserForm'
 import ModifyUserForm from './components/ModifyUserForm'
 import UserTable from './components/UserTable'
+import ButtonDecrement from './components/ButtonDecrement'
+import ButtonIncrement from './components/ButtonIncrement'
 
 const App = () => {
 	// Data
-	const usersData = [
-		{ id: 1, firstname: 'Tania', lastname: 'floppydiskette', email: 'floppydiskette', username: 'floppydiskette' },
-		{ id: 2, firstname: 'Craig', lastname: 'siliconeidolon', email: 'floppydiskette', username: 'floppydiskette' },
-		{ id: 3, firstname: 'Ben', lastname: 'benisphere', email: 'floppydiskette', username: 'floppydiskette' },
-	]
+
 
 	const initialFormState = { id: null, firstname: '', lastname: '', email: '', username: '' }
 
@@ -17,11 +15,39 @@ const App = () => {
 	const [users, setUsers] = useState([])
 	const [currentUser, setCurrentUser] = useState(initialFormState)
 	const [editing, setEditing] = useState(false)
-	
-	useEffect(() => {
-		setUsers(usersData);
-	  }, []);
 
+	const [counter, setCounter] = useState(0);
+	const incrementCounter = () => {
+		setCounter(counter + 1);
+		actualiza(counter + 1);
+	}
+	const decrementCounter = () => {
+		setCounter(counter - 1);
+		actualiza(counter - 1);
+	}
+
+
+	const actualiza = count => {
+		var url = "/api/users/all?page=" + count;
+		console.log(url);
+		fetch(url)
+			.then(res => res.json())
+			.then(
+				(data) => {
+					setUsers(data);
+				},
+				(error) => {
+					console.log("error al cargar");
+					alert("Error al cargar");
+				}
+			)
+	}
+
+	useEffect(() => {
+		console.log("user efecct");
+		actualiza(counter);
+		// eslint-disable-next-line
+	}, []);
 
 	// CRUD operations
 	const addUser = user => {
@@ -44,7 +70,7 @@ const App = () => {
 	const editRow = user => {
 		setEditing(true)
 
-		setCurrentUser({ id: user.id, firstname: user.firstname, lastname: user.lastname,email:user.email, username:user.username })
+		setCurrentUser({ id: user.id, firstname: user.firstname, lastname: user.lastname, email: user.email, username: user.username })
 	}
 
 	return (
@@ -72,9 +98,15 @@ const App = () => {
 				<div className="flex-large">
 					<h2>View</h2>
 					<UserTable users={users} editRow={editRow} deleteUser={deleteUser} />
-				</div>
+
+					<ButtonDecrement onClickFunc={decrementCounter} />
+					<ButtonIncrement onClickFunc={incrementCounter} />
+
+					Pagina: <b>{counter+1}</b>
+
 			</div>
 		</div>
+		</div >
 	)
 }
 
