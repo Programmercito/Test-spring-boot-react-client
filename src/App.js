@@ -14,10 +14,13 @@ const App = () => {
 	const initialFormState = { id: null, firstname: '', lastname: '', email: '', username: '' }
 
 	// Setting state
-	const [users, setUsers] = useState(usersData)
+	const [users, setUsers] = useState([])
 	const [currentUser, setCurrentUser] = useState(initialFormState)
 	const [editing, setEditing] = useState(false)
 	
+	useEffect(() => {
+		setUsers(usersData);
+	  }, []);
 
 
 	// CRUD operations
