@@ -14,15 +14,19 @@ const AddUserForm = props => {
 		<form
 			onSubmit={event => {
 				event.preventDefault()
-				if (!user.name || !user.username) return
+				if (!user.firstname || !user.lastname || !user.email || !user.username) return
 
 				props.addUser(user)
 				setUser(initialFormState)
 			}}
 		>
-			<label>Name</label>
-			<input type="text" name="name" value={user.name} onChange={handleInputChange} />
-			<label>Username</label>
+			<label>First Name</label>
+			<input type="text" name="firstname" value={user.firstname} onChange={handleInputChange} />
+			<label>Last Name</label>
+			<input type="text" name="lastname" value={user.lastname} onChange={handleInputChange} />
+			<label>Email</label>
+			<input type="text" name="email" value={user.email} onChange={handleInputChange} />
+			<label>User Name</label>
 			<input type="text" name="username" value={user.username} onChange={handleInputChange} />
 			<button>Add new user</button>
 		</form>

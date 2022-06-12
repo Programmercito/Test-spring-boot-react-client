@@ -6,22 +6,22 @@ import UserTable from './components/UserTable'
 const App = () => {
 	// Data
 	const usersData = [
-		{ id: 1, name: 'Tania', username: 'floppydiskette' },
-		{ id: 2, name: 'Craig', username: 'siliconeidolon' },
-		{ id: 3, name: 'Ben', username: 'benisphere' },
+		{ id: 1, firstname: 'Tania', lastname: 'floppydiskette', email: 'floppydiskette', username: 'floppydiskette' },
+		{ id: 2, firstname: 'Craig', lastname: 'siliconeidolon', email: 'floppydiskette', username: 'floppydiskette' },
+		{ id: 3, firstname: 'Ben', lastname: 'benisphere', email: 'floppydiskette', username: 'floppydiskette' },
 	]
 
-	const initialFormState = { id: null, name: '', username: '' }
+	const initialFormState = { id: null, firstname: '', lastname: '', email: '', username: '' }
 
 	// Setting state
-	const [ users, setUsers ] = useState(usersData)
-	const [ currentUser, setCurrentUser ] = useState(initialFormState)
-	const [ editing, setEditing ] = useState(false)
+	const [users, setUsers] = useState(usersData)
+	const [currentUser, setCurrentUser] = useState(initialFormState)
+	const [editing, setEditing] = useState(false)
 
 	// CRUD operations
 	const addUser = user => {
 		user.id = users.length + 1
-		setUsers([ ...users, user ])
+		setUsers([...users, user])
 	}
 
 	const deleteUser = id => {
@@ -39,7 +39,7 @@ const App = () => {
 	const editRow = user => {
 		setEditing(true)
 
-		setCurrentUser({ id: user.id, name: user.name, username: user.username })
+		setCurrentUser({ id: user.id, firstname: user.firstname, lastname: user.lastname,email:user.email, username:user.username })
 	}
 
 	return (
