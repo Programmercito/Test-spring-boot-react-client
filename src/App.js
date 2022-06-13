@@ -110,7 +110,7 @@ const App = () => {
 				updatedUser = data;
 				setUsers(users.map(user => (user.id === id ? updatedUser : user)))
 			}, (error) => {
-				alert("Erorr al insertar "+error);
+				alert("Erorr  "+error);
 			});
 
 	}
