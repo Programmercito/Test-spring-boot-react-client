@@ -44,8 +44,7 @@ const App = () => {
 					setUsers(data);
 				},
 				(error) => {
-					console.log("error al cargar");
-					alert("Error al cargar");
+					alert("Error al cargar, levante el api en spring boot para poder usar esta app");
 				}
 			)
 	}
