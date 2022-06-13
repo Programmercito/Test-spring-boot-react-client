@@ -26,7 +26,8 @@ const ModifyUserForm = props => {
       }}
     >
       <label>First Name</label>
-      <input type="text" name="firstname" value={user.firstname} onChange={handleInputChange} />
+      <input type="text" name="firstname" value={user.firstname} onChange={handleInputChange} data-testid={`edit-firstname`}/>
+      
       <label>Last Name</label>
       <input type="text" name="lastname" value={user.lastname} onChange={handleInputChange} />
       <label>Email</label>
@@ -34,7 +35,8 @@ const ModifyUserForm = props => {
       <label>User Name</label>
       <input type="text" name="username" value={user.username} onChange={handleInputChange} />
       <button>Update user</button>
-      <button onClick={() => props.setEditing(false)} className="button muted-button">
+      <button onClick={() => props.setEditing(false)} className="button muted-button" data-testid={`edit-button`}>
+      
         Cancel
       </button>
     </form>
